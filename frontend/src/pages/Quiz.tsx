@@ -12,18 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Trophy } from 'lucide-react';
+import {GameState, Question} from "@/lib/interfaces.ts";
 
-interface Question {
-    id: number;
-    question: string;
-    answer: "humain" | "océan" | "les deux";  // Only these three possible answers
-}
-
-interface GameState {
-    currentQuestion: number;
-    streak: number;
-    gameOver: boolean;
-}
 
 const POSSIBLE_ANSWERS = ["humain", "océan", "les deux"] as const;
 
@@ -42,14 +32,16 @@ const BurgerQuiz: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        /*const fetchQuestions = async (): Promise<void> => {
+        const fetchQuestions = async (): Promise<void> => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://your-api-endpoint/questions');
+                const response = await fetch('http://localhost:5000/api/quiz');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    console.error("HTTP error! status: " + response.statusText);
+                    setError(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json() as Question[];
+                console.log("data:" + data);
                 setQuestions(data);
             } catch (error) {
                 setError(error instanceof Error ? error.message : 'An error occurred');
@@ -58,15 +50,7 @@ const BurgerQuiz: React.FC = () => {
             }
         };
 
-        fetchQuestions();*/
-
-        setQuestions([
-            {id: 1, question: "question de ouf", answer: "humain"},
-            {id: 2, question: "question de ouf 2", answer: "océan"},
-            {id: 3, question: "question de ouf 3", answer: "les deux"},
-        ]);
-
-        setIsLoading(false);
+        fetchQuestions();
     }, []);
 
     const handleNameSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
