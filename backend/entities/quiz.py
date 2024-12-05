@@ -6,7 +6,7 @@ class Quiz(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     question = db.Column(db.String(255), nullable=False)
-    answer = db.Column(db.Enum('Humain', 'Océon', 'Les deux', name='answer_enum'), nullable=False)
+    answer = db.Column(db.Enum('L\'Humain', 'L\'oceon', 'Les deux', name='answer_enum'), nullable=False)
 
     def __init__(self, question, answer):
         self.question = question
