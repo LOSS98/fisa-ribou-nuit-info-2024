@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
+
+from backend.entities.admin import Admin
 from database.db_setup import db
 from entities.quiz import Quiz
 
@@ -62,8 +64,24 @@ def update_question():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
-
+@app.route('/api/quiz/<int:question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    '''Delete a question
+    Return : {message} or {error}'''
+    question = Quiz.get_question_by_id(question_id)
+    if question:
+        question.delete_question()
+        return jsonify({"message": "Question deleted"}), 200
+    else:
+        return jsonify({"error": "Question not found"}), 404
 '''END Quiz API'''
 
+'''Admin API'''
+@app.route('/api/admin<int:admin_id>', methods=['GET'])
+def get_admin(admin_id):
+    '''Get a admin by its ID
+    Return : {id, question, answer} or {error}'''
+    admin = Admin.get_admin_by_id(admin_id)
+'''END Admin API'''
 if __name__ == '__main__':
     app.run(debug=True)
