@@ -15,7 +15,7 @@ import { Trophy } from 'lucide-react';
 import {GameState, Question} from "@/lib/interfaces.ts";
 
 
-const POSSIBLE_ANSWERS = ["humain", "océan", "les deux"] as const;
+const POSSIBLE_ANSWERS = ["L'Humain", "L'Océan", "Les deux"] as const;
 
 const BurgerQuiz: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -111,7 +111,7 @@ const BurgerQuiz: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
-            <Dialog open={showNameDialog} onOpenChange={setShowNameDialog}>
+            <Dialog open={showNameDialog} onOpenChange={setShowNameDialog} modal={false}>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Welcome to Burger Quiz!</DialogTitle>
