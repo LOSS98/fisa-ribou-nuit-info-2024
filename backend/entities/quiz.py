@@ -1,4 +1,4 @@
-from database.db_setup import db
+from backend.database.db_setup import db
 
 
 class Quiz(db.Model):

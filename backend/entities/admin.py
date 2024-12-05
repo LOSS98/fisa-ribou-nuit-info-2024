@@ -1,4 +1,4 @@
-from database.db_setup import db
+from backend.database.db_setup import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Admin(db.Model):

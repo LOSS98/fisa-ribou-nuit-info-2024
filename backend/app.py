@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
 
 from backend.entities.admin import Admin
-from database.db_setup import db
-from entities.quiz import Quiz
+from backend.database.db_setup import db
+from backend.entities.quiz import Quiz
 
 app = Flask(__name__)
 assets = Environment(app)
