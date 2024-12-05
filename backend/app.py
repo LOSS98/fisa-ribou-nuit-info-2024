@@ -1,6 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
-
 from database.db_setup import db
 from entities.quiz import Quiz
 
@@ -16,6 +15,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+'''Quiz API'''
 @app.route('/api/quiz/<int:question_id>', methods=['GET'])
 def get_question(question_id):
     ''''Get a question by its ID
@@ -26,6 +26,27 @@ def get_question(question_id):
     else:
         return jsonify({"error": "Question not found"}), 404
 
-# Exemple de point de départ
+@app.route('/api/quiz', methods=['GET'])
+def get_all_questions():
+    '''Get all questions
+    Return : [question1, question2, ...]'''
+    questions = Quiz.get_all_questions()
+    return jsonify(questions), 200
+
+@app.route('/api/quiz', methods=['POST'])
+def add_question():
+    '''Add a question
+    Request : {"question": "Question", "answer": "Humain|Océon|Les deux"}
+    Return : {id, question, answer} or {error}'''
+    data = request.get_json()
+    try:
+        Quiz.add_question(data['question'], data['answer'])
+        return jsonify({"message": "Question added"}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+'''END Quiz API'''
+
 if __name__ == '__main__':
     app.run(debug=True)
