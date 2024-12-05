@@ -72,8 +72,6 @@ def delete_question(question_id):
         return jsonify({"message": "Question deleted"}), 200
     else:
         return jsonify({"error": "Question not found"}), 404
-
-
 '''END Quiz API'''
 
 if __name__ == '__main__':
