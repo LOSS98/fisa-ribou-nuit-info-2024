@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
+
+from backend.entities.admin import Admin
 from database.db_setup import db
 from entities.quiz import Quiz
 
@@ -74,5 +76,12 @@ def delete_question(question_id):
         return jsonify({"error": "Question not found"}), 404
 '''END Quiz API'''
 
+'''Admin API'''
+@app.route('/api/admin<int:admin_id>', methods=['GET'])
+def get_admin(admin_id):
+    '''Get a admin by its ID
+    Return : {id, question, answer} or {error}'''
+    admin = Admin.get_admin_by_id(admin_id)
+'''END Admin API'''
 if __name__ == '__main__':
     app.run(debug=True)
