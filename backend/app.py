@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
+from flask_cors import CORS
 
 from backend.entities.admin import Admin
 from backend.database.db_setup import db
@@ -11,6 +12,9 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = 'idfghjkagfuykagsf76GHKSGDFJ87vk'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///nuit_info.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 db.init_app(app)
 

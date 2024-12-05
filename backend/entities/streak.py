@@ -2,7 +2,7 @@ from backend.database.db_setup import db
 
 
 class Quiz(db.Model):
-    __tablename__ = 'quizzes'
+    __tablename__ = 'streaks'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     pseudo = db.Column(db.String(255), nullable=False)
@@ -70,7 +70,7 @@ class Quiz(db.Model):
 
     @staticmethod
     def get_streak_by_pseudo(pseudo):
-        quiz = Quiz.query.filter_by(pseudo=pseudo).first()
+        quiz = Quiz.query.order_by(Quiz.date).filter_by(pseudo=pseudo).first()
         if quiz:
             return {
                 "id": quiz.id,
@@ -83,7 +83,7 @@ class Quiz(db.Model):
 
     @staticmethod
     def get_streak_by_date(date):
-        quiz = Quiz.query.filter_by(date=date).first()
+        quiz = Quiz.query.order_by(Quiz.date).filter_by(date=date).first()
         if quiz:
             return {
                 "id": quiz.id,
