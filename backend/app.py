@@ -82,7 +82,7 @@ def delete_question(question_id):
 
 '''Admin API'''
 @app.route('/api/admin/<int:admin_id>', methods=['GET'])
-def get_admin_id(admin_id):
+def get_admin_by_id(admin_id):
     """
     Récupère un administrateur par son ID.
     Request : admin_id (int)
@@ -94,8 +94,8 @@ def get_admin_id(admin_id):
     else:
         return jsonify({"error": f"Admin with ID {admin_id} not found"}), 404
 
-@app.route('/api/admin/<str:admin_email>', methods=['GET'])
-def get_admin_email(admin_email):
+@app.route('/api/admin/<string:admin_email>', methods=['GET'])
+def get_admin_by_email(admin_email):
     """
     Récupère un administrateur par son email.
     Retour : {"id": <ID>, "email": <EMAIL>} ou {"error": "Admin not found"}
@@ -107,7 +107,7 @@ def get_admin_email(admin_email):
         return jsonify({"error": "Admin not found"}), 404
 
 @app.route('/api/admin/<int:admin_id>', methods=['PUT'])
-def update_admin_id(admin_id):
+def update_admin_by_id(admin_id):
     '''Update a admin by its ID
     Return : {id, question, answer} or {error}'''
     data = request.get_json()
@@ -122,8 +122,8 @@ def update_admin_id(admin_id):
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/api/admin/<str:admin_email>', methods=['PUT'])
-def update_admin_email(admin_email):
+@app.route('/api/admin/<string:admin_email>', methods=['PUT'])
+def update_admin_by_email(admin_email):
     '''Update a admin by its Email
     Return : {id, question, answer} or {error}'''
     data = request.get_json()
@@ -149,8 +149,8 @@ def add_admin():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/api/admin/<str:admin_email>', methods=['DELETE'])
-def delete_admin(admin_email):
+@app.route('/api/admin/<string:admin_email>', methods=['DELETE'])
+def delete_admin_by_email(admin_email):
     '''Delete a admin
     Return : {message} or {error}'''
     admin = Admin.get_admin_by_email(admin_email)
@@ -161,7 +161,7 @@ def delete_admin(admin_email):
         return jsonify({"error": "Admin not found"}), 404
 
 @app.route('/api/admin/<int:admin_id>', methods=['DELETE'])
-def delete_admin(admin_id):
+def delete_admin_by_id(admin_id):
     '''Delete a admin
     Return : {message} or {error}'''
     admin = Admin.get_admin_by_id(admin_id)
