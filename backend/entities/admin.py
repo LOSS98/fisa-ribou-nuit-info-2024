@@ -46,6 +46,17 @@ class Admin(db.Model):
     def get_admin_by_id(id):
         admin = Admin.query.get(id)
 
+    @staticmethod
+    def get_admin_by_email(email):
+        """
+        Récupère un administrateur par son email.
+        Retourne un dictionnaire avec ses informations ou None si l'email n'existe pas.
+        """
+        admin = Admin.query.filter_by(email=email).first()
+        if admin:
+            return {"id": admin.id, "email": admin.email}
+        return None
+
 
     def delete_admi(admin_id):
         """

@@ -81,11 +81,97 @@ def delete_question(question_id):
 '''END Quiz API'''
 
 '''Admin API'''
-@app.route('/api/admin<int:admin_id>', methods=['GET'])
-def get_admin(admin_id):
-    '''Get a admin by its ID
+@app.route('/api/admin/<int:admin_id>', methods=['GET'])
+def get_admin_id(admin_id):
+    """
+    Récupère un administrateur par son ID.
+    Request : admin_id (int)
+    Return : {"id": <ID>, "email": <EMAIL>} ou {"error": "Admin not found"}
+    """
+    admin = Admin.get_admin_by_id(admin_id)  # Appel de la méthode du modèle
+    if admin:
+        return jsonify(admin), 200
+    else:
+        return jsonify({"error": f"Admin with ID {admin_id} not found"}), 404
+
+@app.route('/api/admin/<str:admin_email>', methods=['GET'])
+def get_admin_email(admin_email):
+    """
+    Récupère un administrateur par son email.
+    Retour : {"id": <ID>, "email": <EMAIL>} ou {"error": "Admin not found"}
+    """
+    admin = Admin.get_admin_by_email(admin_email)  # Appel de la méthode statique
+    if admin:
+        return jsonify(admin), 200
+    else:
+        return jsonify({"error": "Admin not found"}), 404
+
+@app.route('/api/admin/<int:admin_id>', methods=['PUT'])
+def update_admin_id(admin_id):
+    '''Update a admin by its ID
     Return : {id, question, answer} or {error}'''
+    data = request.get_json()
+    try:
+        admin = Admin.get_admin_by_id(admin_id)
+        if admin:
+            admin.set_email(data['email'])
+            admin.set_password(data['password'])
+            return jsonify(admin), 200
+        else:
+            return jsonify({"error": "Admin not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/admin/<str:admin_email>', methods=['PUT'])
+def update_admin_email(admin_email):
+    '''Update a admin by its Email
+    Return : {id, question, answer} or {error}'''
+    data = request.get_json()
+    try:
+        admin = Admin.get_admin_by_email(admin_email)
+        if admin:
+            admin.set_email(data['email'])
+            admin.set_password(data['password'])
+            return jsonify(admin), 200
+        else:
+            return jsonify({"error": "Admin not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/admin/<int:admin_id>', methods=['POST'])
+def add_admin():
+    '''Add a admin
+    Request : {"email": "<EMAIL>", "password": "<PASSWORD>"}'''
+    data = request.get_json()
+    try:
+        Admin.add_admin(data['email'], data['password'])
+        return jsonify({"message": "Admin added"}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/admin/<str:admin_email>', methods=['DELETE'])
+def delete_admin(admin_email):
+    '''Delete a admin
+    Return : {message} or {error}'''
+    admin = Admin.get_admin_by_email(admin_email)
+    if admin:
+        admin.delete_admin()
+        return jsonify({"message": "Admin deleted"}), 200
+    else:
+        return jsonify({"error": "Admin not found"}), 404
+
+@app.route('/api/admin/<int:admin_id>', methods=['DELETE'])
+def delete_admin(admin_id):
+    '''Delete a admin
+    Return : {message} or {error}'''
     admin = Admin.get_admin_by_id(admin_id)
+    if admin:
+        admin.delete_admin()
+        return jsonify({"message": "Admin deleted"}), 200
+    else:
+        return jsonify({"error": "Admin not found"}), 404
+
+
 '''END Admin API'''
 if __name__ == '__main__':
     app.run(debug=True)
