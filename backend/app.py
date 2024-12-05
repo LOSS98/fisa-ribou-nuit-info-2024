@@ -45,6 +45,23 @@ def add_question():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
+@app.route('/api/quiz', methods=['PUT'])
+def update_question():
+    '''Update a question
+    Request : {"id": 1, "question": "Question", "answer": "Humain|Océon|Les deux"}
+    Return : {id, question, answer} or {error}'''
+    data = request.get_json()
+    try:
+        question = Quiz.get_question_by_id(data['id'])
+        if question:
+            question.set_question(data['question'])
+            question.set_answer(data['answer'])
+            return jsonify(question), 200
+        else:
+            return jsonify({"error": "Question not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
 
 '''END Quiz API'''
 

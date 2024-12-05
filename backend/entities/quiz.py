@@ -20,15 +20,17 @@ class Quiz(db.Model):
 
     def set_question(self, question):
         self.question = question
+        db.session.commit()
 
     def set_answer(self, answer):
         if answer not in ['Humain', 'Océon', 'Les deux']:
             raise ValueError("Answer must be one of: 'Humain', 'Océon', 'Les deux'")
         self.answer = answer
+        db.session.commit()
 
     @staticmethod
     def get_all_questions():
-        return [quiz.question for quiz in Quiz.query.all()]
+        return [{'id':quiz.id, 'question':quiz.question, 'answer':quiz.answer} for quiz in Quiz.query.all()]
 
     @staticmethod
     def add_question(question, answer):
