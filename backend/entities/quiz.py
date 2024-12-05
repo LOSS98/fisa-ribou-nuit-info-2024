@@ -28,6 +28,10 @@ class Quiz(db.Model):
         self.answer = answer
         db.session.commit()
 
+    def delete_question(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def get_all_questions():
         return [{'id':quiz.id, 'question':quiz.question, 'answer':quiz.answer} for quiz in Quiz.query.all()]
@@ -39,6 +43,7 @@ class Quiz(db.Model):
         new_quiz = Quiz(question=question, answer=answer)
         db.session.add(new_quiz)
         db.session.commit()
+
 
     @staticmethod
     def get_question_by_id(question_id):

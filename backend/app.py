@@ -62,6 +62,17 @@ def update_question():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
+@app.route('/api/quiz/<int:question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    '''Delete a question
+    Return : {message} or {error}'''
+    question = Quiz.get_question_by_id(question_id)
+    if question:
+        question.delete_question()
+        return jsonify({"message": "Question deleted"}), 200
+    else:
+        return jsonify({"error": "Question not found"}), 404
+
 
 '''END Quiz API'''
 
