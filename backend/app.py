@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, jsonify, request
 from flask_assets import Environment, Bundle
 from flask_cors import CORS
@@ -398,6 +399,21 @@ def delete_podcast(podcast_id):
     else:
         return jsonify({"error": "Podcast not found"}), 404
 '''END Podcast API'''
+
+'''Meteo API'''
+@app.route('/api/meteo', methods=['GET'])
+def get_weather(latitude, longitude):
+    api_url = "https://api.open-meteo.com/v1/forecast"
+
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "current_weather": "true"
+    }
+
+    response = requests.get(api_url, params=params)
+    return response.json()
+'''END Meteo API'''
 
 
 if __name__ == '__main__':
