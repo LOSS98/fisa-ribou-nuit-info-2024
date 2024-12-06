@@ -46,6 +46,10 @@ class Admin(db.Model):
     @staticmethod
     def get_admin_by_id(id):
         admin = Admin.query.get(id)
+        if admin:
+            return {"id": admin.id, "email": admin.email, "password": admin.password}
+        else:
+            return None
 
     @staticmethod
     def get_admin_by_email(email):
@@ -55,11 +59,11 @@ class Admin(db.Model):
         """
         admin = Admin.query.filter_by(email=email).first()
         if admin:
-            return {"id": admin.id, "email": admin.email}
+            return {"id": admin.id, "email": admin.email, "password": admin.password}
         return None
 
 
-    def delete_admi(admin_id):
+    def delete_admin(admin_id):
         """
         Supprime un admin de la base de données en fonction de son ID.
         """
