@@ -50,7 +50,7 @@ def get_all_questions():
     return jsonify(questions), 200
 
 @app.route('/api/quiz/ai', methods=['GET'])
-def get_all_questions():
+def get_all_questions_ai():
     '''Get questions IA
     Return : [question1, question2, ...]'''
     questions = Quiz.get_ia_quiz()
