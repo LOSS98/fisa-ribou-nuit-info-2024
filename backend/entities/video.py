@@ -5,7 +5,7 @@ class Video(db.Model):
     __tablename__ = 'videos'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    question = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(1024), nullable=True)
     link = db.Column(db.String(255), nullable=True)
     image_link = db.Column(db.String(255), nullable=True)
