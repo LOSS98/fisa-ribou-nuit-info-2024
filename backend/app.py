@@ -9,6 +9,13 @@ from backend.entities.quiz import Quiz
 from backend.entities.streak import Streak
 from backend.entities.video import Video
 
+import random
+import string
+
+def generate_random_string(length=10):
+    characters = string.ascii_letters + string.digits
+    random_str = ''.join(random.choices(characters, k=length))
+    return random_str
 app = Flask(__name__)
 assets = Environment(app)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -40,6 +47,13 @@ def get_all_questions():
     '''Get all questions
     Return : [question1, question2, ...]'''
     questions = Quiz.get_all_questions()
+    return jsonify(questions), 200
+
+@app.route('/api/quiz/ai', methods=['GET'])
+def get_all_questions():
+    '''Get questions IA
+    Return : [question1, question2, ...]'''
+    questions = Quiz.get_ia_quiz()
     return jsonify(questions), 200
 
 @app.route('/api/quiz', methods=['POST'])
@@ -184,7 +198,7 @@ def login():
     data = request.get_json()
     admin = Admin.get_admin_by_email(data['email'])
     if admin and admin.check_password(data['password']):
-        return jsonify(admin), 200
+        return jsonify({'id' : admin.get_id(), 'email' : admin.get_email(), 'token' : generate_random_string(12)}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
 '''END Admin API'''

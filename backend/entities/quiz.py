@@ -1,5 +1,5 @@
 from backend.database.db_setup import db
-
+from mistralai import Mistral
 
 class Quiz(db.Model):
     __tablename__ = 'quizzes'
@@ -56,3 +56,21 @@ class Quiz(db.Model):
             }
         else:
             return None
+
+    @staticmethod
+    def get_ia_quiz(nbr=10):
+        api_key = "DNsdA0tKnjs4UdEwouT67KdCFWzO77ro"
+        model = "mistral-large-latest"
+
+        client = Mistral(api_key=api_key)
+
+        chat_response = client.chat.complete(
+            model= model,
+            messages = [
+                {
+                    "role": "user",
+                    "content": f'Génère une liste de {nbr} questions avec 3 réponses possibles (L\'Océan, L\'Humain, Les deux) et donne la réponse correcte.Format attendu :[{"question": "Votre question ici",answer": "Réponse correcte"}, ...]',
+                },
+            ]
+        )
+        return chat_response.choices[0].message.content
