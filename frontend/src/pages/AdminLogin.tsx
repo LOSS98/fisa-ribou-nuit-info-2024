@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { KeyRound } from 'lucide-react';
+import { MemoryCaptcha } from "@/components/Captcha.tsx";
 
 interface LoginCredentials {
     email: string;
@@ -20,6 +21,7 @@ export const AdminLogin: React.FC = () => {
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+    const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -103,12 +105,13 @@ export const AdminLogin: React.FC = () => {
                                 required
                             />
                         </div>
+                        <MemoryCaptcha onVerify={() => setIsCaptchaVerified(true)} />
                     </CardContent>
                     <CardFooter>
                         <Button
                             type="submit"
                             className="w-full"
-                            disabled={isLoading}
+                            disabled={isLoading || !isCaptchaVerified}
                         >
                             {isLoading ? 'Signing in...' : 'Sign In'}
                         </Button>
