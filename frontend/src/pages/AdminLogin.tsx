@@ -31,7 +31,7 @@ export const AdminLogin: React.FC = () => {
         try {
             console.log(JSON.stringify(credentials));
 
-            const response = await fetch('http://localhost:5000/api/admin/login', {
+            const response = await fetch('https://fisa-ribou-nuit-info-2024.onrender.com/api/admin/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

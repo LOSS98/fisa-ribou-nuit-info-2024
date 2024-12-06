@@ -36,7 +36,7 @@ const Quiz: React.FC = () => {
         const fetchQuestions = async (): Promise<void> => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:5000/api/quiz');
+                const response = await fetch('https://fisa-ribou-nuit-info-2024.onrender.com/api/quiz');
                 if (!response.ok) {
                     console.error("HTTP error! status: " + response.statusText);
                     setError(`HTTP error! status: ${response.status}`);
