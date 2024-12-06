@@ -2,7 +2,7 @@ from backend.database.db_setup import db
 
 
 class Video(db.Model):
-    __tablename__ = 'viedeos'
+    __tablename__ = 'videos'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     question = db.Column(db.String(255), nullable=False)
