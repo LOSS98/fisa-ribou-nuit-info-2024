@@ -4,7 +4,10 @@ from flask_cors import CORS
 
 from backend.entities.admin import Admin
 from backend.database.db_setup import db
+from backend.entities.podcast import Podcast
 from backend.entities.quiz import Quiz
+from backend.entities.streak import Streak
+from backend.entities.video import Video
 
 app = Flask(__name__)
 assets = Environment(app)
@@ -170,8 +173,204 @@ def delete_admin_by_id(admin_id):
         return jsonify({"message": "Admin deleted"}), 200
     else:
         return jsonify({"error": "Admin not found"}), 404
-
-
 '''END Admin API'''
+
+'''Streak API'''
+
+@app.route('/api/streak/<int:streak_id>', methods=['GET'])
+def get_streak_by_id(streak_id):
+    '''Get a streak by its ID
+    Return : {id, pseudo, streak, date} or {error}'''
+    streak = Streak.get_streak_by_id(streak_id)
+    if streak:
+        return jsonify(streak), 200
+    else:
+        return jsonify({"error": "Streak not found"}), 404
+
+@app.route('/api/streak', methods=['GET'])
+def get_all_streaks():
+    '''Get all streaks
+    Return : [streak1, streak2, ...]'''
+    streaks = Streak.get_all_streaks()
+    return jsonify(streaks), 200
+
+@app.route('/api/streak', methods=['POST'])
+def add_streak():
+    '''Add a streak
+    Request : {"pseudo": "<PSEUDO>", "streak": <STREAK>, "date": "<DATE>"}
+    Return : {id, pseudo, streak, date} or {error}'''
+    data = request.get_json()
+    try:
+        Streak.add_streak(data['pseudo'], data['streak'], data['date'])
+        return jsonify({"message": "Streak added"}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/streak', methods=['PUT'])
+def update_streak():
+    '''Update a streak
+    Request : {"id": 1, "pseudo": "<PSEUDO>", "streak": <STREAK>, "date": "<DATE>"}
+    Return : {id, pseudo, streak, date} or {error}'''
+    data = request.get_json()
+    try:
+        streak = Streak.get_streak_by_id(data['id'])
+        if streak:
+            streak.set_pseudo(data['pseudo'])
+            streak.set_streak(data['streak'])
+            streak.set_date(data['date'])
+            return jsonify(streak), 200
+        else:
+            return jsonify({"error": "Streak not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/streak/<int:streak_id>', methods=['DELETE'])
+def delete_streak(streak_id):
+    '''Delete a streak
+    Return : {message} or {error}'''
+    streak = Streak.get_streak_by_id(streak_id)
+    if streak:
+        streak.delete_streak()
+        return jsonify({"message": "Streak deleted"}), 200
+    else:
+        return jsonify({"error": "Streak not found"}), 404
+
+@app.route('/api/streak/<string:pseudo>', methods=['DELETE'])
+def delete_streak_by_pseudo(pseudo):
+    '''Delete a streak
+    Return : {message} or {error}'''
+    streak = Streak.get_streak_by_pseudo(pseudo)
+    if streak:
+        streak.delete_streak()
+        return jsonify({"message": "Streak deleted"}), 200
+    else:
+        return jsonify({"error": "Streak not found"}), 404
+'''END Streak API'''
+
+'''Video API'''
+@app.route('/api/video/<int:video_id>', methods=['GET'])
+def get_video_by_id(video_id):
+    '''Get a video by its ID
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    video = Video.get_video_by_id(video_id)
+    if video:
+        return jsonify(video), 200
+    else:
+        return jsonify({"error": "Video not found"}), 404
+
+@app.route('/api/video', methods=['GET'])
+def get_all_video():
+    '''Get all videos
+    Return : [video1, video2, ...]'''
+    videos = Video.get_all_video()
+    return jsonify(videos), 200
+
+@app.route('/api/video', methods=['POST'])
+def add_video():
+    '''Add a video
+    Request : {"title": "<TITLE>", "description": "<DESCRIPTION>", "link": "<LINK>", "image_link": "<IMAGE_LINK>", "upload_date": "<UPLOAD_DATE>"}
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    data = request.get_json()
+    try:
+        Video.add_video(data['title'], data['description'], data['link'], data['image_link'], data['upload_date'])
+        return jsonify({"message": "Video added"}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/video', methods=['PUT'])
+def update_video():
+    '''Update a video
+    Request : {"id": 1, "title": "<TITLE>", "description": "<DESCRIPTION>", "link": "<LINK>", "image_link": "<IMAGE_LINK>", "upload_date": "<UPLOAD_DATE>"}
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    data = request.get_json()
+    try:
+        video = Video.get_video_by_id(data['id'])
+        if video:
+            video.set_title(data['title'])
+            video.set_description(data['description'])
+            video.set_link(data['link'])
+            video.set_image_link(data['image_link'])
+            video.set_upload_date(data['upload_date'])
+            return jsonify(video), 200
+        else:
+            return jsonify({"error": "Video not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/video/<int:video_id>', methods=['DELETE'])
+def delete_video(video_id):
+    '''Delete a video
+    Return : {message} or {error}'''
+    video = Video.get_video_by_id(video_id)
+    if video:
+        video.delete_video()
+        return jsonify({"message": "Video deleted"}), 200
+    else:
+        return jsonify({"error": "Video not found"}), 404
+'''END Video API'''
+
+'''Podcast API'''
+@app.route('/api/podcast/<int:podcast_id>', methods=['GET'])
+def get_podcast_by_id(podcast_id):
+    '''Get a podcast by its ID
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    podcast = Podcast.get_podcast_by_id(podcast_id)
+    if podcast:
+        return jsonify(podcast), 200
+    else:
+        return jsonify({"error": "Podcast not found"}), 404
+
+@app.route('/api/podcast', methods=['GET'])
+def get_all_podcast():
+    '''Get all podcasts
+    Return : [podcast1, podcast2, ...]'''
+    podcasts = Podcast.get_all_podcast()
+    return jsonify(podcasts), 200
+
+@app.route('/api/podcast', methods=['POST'])
+def add_podcast():
+    '''Add a podcast
+    Request : {"title": "<TITLE>", "description": "<DESCRIPTION>", "link": "<LINK>", "image_link": "<IMAGE_LINK>", "upload_date": "<UPLOAD_DATE>"}
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    data = request.get_json()
+    try:
+        Podcast.add_podcast(data['title'], data['description'], data['link'], data['image_link'], data['upload_date'])
+        return jsonify({"message": "Podcast added"}), 201
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/podcast', methods=['PUT'])
+def update_podcast():
+    '''Update a podcast
+    Request : {"id": 1, "title": "<TITLE>", "description": "<DESCRIPTION>", "link": "<LINK>", "image_link": "<IMAGE_LINK>", "upload_date": "<UPLOAD_DATE>"}
+    Return : {id, title, description, link, image_link, upload_date} or {error}'''
+    data = request.get_json()
+    try:
+        podcast = Podcast.get_podcast_by_id(data['id'])
+        if podcast:
+            podcast.set_title(data['title'])
+            podcast.set_description(data['description'])
+            podcast.set_link(data['link'])
+            podcast.set_image_link(data['image_link'])
+            podcast.set_upload_date(data['upload_date'])
+            return jsonify(podcast), 200
+        else:
+            return jsonify({"error": "Podcast not found"}), 404
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/api/podcast/<int:podcast_id>', methods=['DELETE'])
+def delete_podcast(podcast_id):
+    '''Delete a podcast
+    Return : {message} or {error}'''
+    podcast = Podcast.get_podcast_by_id(podcast_id)
+    if podcast:
+        podcast.delete_podcast()
+        return jsonify({"message": "Podcast deleted"}), 200
+    else:
+        return jsonify({"error": "Podcast not found"}), 404
+'''END Podcast API'''
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,7 +1,7 @@
 from backend.database.db_setup import db
 
 
-class Quiz(db.Model):
+class Streak(db.Model):
     __tablename__ = 'streaks'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -42,54 +42,54 @@ class Quiz(db.Model):
 
     @staticmethod
     def get_all_streaks():
-        return [{'id':quiz.id, 'pseudo':quiz.pseudo, 'streak':quiz.streak, 'date':quiz.date} for quiz in Quiz.query.all()]
+        return [{'id':streak.id, 'pseudo':streak.pseudo, 'streak':streak.streak, 'date':streak.date} for streak in Streak.query.all()]
 
     @staticmethod
     def get_all_streak():
-        return [{'id': quiz.id, 'pseudo': quiz.pseudo, 'streak': quiz.streak, 'date': quiz.date} for quiz in
-                Quiz.query.order_by(Quiz.date).all()]
+        return [{'id': streak.id, 'pseudo': streak.pseudo, 'streak': streak.streak, 'date': streak.date} for streak in
+                Streak.query.order_by(Streak.date).all()]
 
     @staticmethod
     def add_streak(pseudo, streak, date):
-        new_quiz = Quiz(pseudo=pseudo, streak=streak, date=date)
-        db.session.add(new_quiz)
+        new_streak = Streak(pseudo=pseudo, streak=streak, date=date)
+        db.session.add(new_streak)
         db.session.commit()
 
     @staticmethod
     def get_streak_by_id(streak_id):
-        quiz = Quiz.query.order_by(Quiz.date).get(streak_id)
-        if quiz:
+        streak = Streak.query.order_by(Streak.date).get(streak_id)
+        if streak:
             return {
-                "id": quiz.id,
-                "pseudo": quiz.pseudo,
-                "streak": quiz.streak,
-                "date": quiz.date
+                "id": streak.id,
+                "pseudo": streak.pseudo,
+                "streak": streak.streak,
+                "date": streak.date
             }
         else:
             return None
 
     @staticmethod
     def get_streak_by_pseudo(pseudo):
-        quiz = Quiz.query.order_by(Quiz.date).filter_by(pseudo=pseudo).first()
-        if quiz:
+        streak = Streak.query.order_by(Streak.date).filter_by(pseudo=pseudo).first()
+        if streak:
             return {
-                "id": quiz.id,
-                "pseudo": quiz.pseudo,
-                "streak": quiz.streak,
-                "date": quiz.date
+                "id": streak.id,
+                "pseudo": streak.pseudo,
+                "streak": streak.streak,
+                "date": streak.date
             }
         else:
             return None
 
     @staticmethod
     def get_streak_by_date(date):
-        quiz = Quiz.query.order_by(Quiz.date).filter_by(date=date).first()
-        if quiz:
+        streak = Streak.query.order_by(Streak.date).filter_by(date=date).first()
+        if streak:
             return {
-                "id": quiz.id,
-                "pseudo": quiz.pseudo,
-                "streak": quiz.streak,
-                "date": quiz.date
+                "id": streak.id,
+                "pseudo": streak.pseudo,
+                "streak": streak.streak,
+                "date": streak.date
             }
         else:
             return None
