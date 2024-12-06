@@ -173,6 +173,20 @@ def delete_admin_by_id(admin_id):
         return jsonify({"message": "Admin deleted"}), 200
     else:
         return jsonify({"error": "Admin not found"}), 404
+
+@app.route('/api/admin/login', methods=['POST'])
+def login():
+    """
+    Connecte un administrateur.
+    Request : {"email": "<EMAIL>", "password": "<PASSWORD>"}
+    Return : {"id": <ID>, "email": "<EMAIL>"} ou {"error": "Invalid email or password"}
+    """
+    data = request.get_json()
+    admin = Admin.get_admin_by_email(data['email'])
+    if admin and admin.check_password(data['password']):
+        return jsonify(admin), 200
+    else:
+        return jsonify({"error": "Invalid email or password"}), 401
 '''END Admin API'''
 
 '''Streak API'''
