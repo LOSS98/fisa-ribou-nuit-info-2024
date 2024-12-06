@@ -197,7 +197,7 @@ def login():
     """
     data = request.get_json()
     admin = Admin.get_admin_by_email(data['email'])
-    if admin and admin.check_password(data['password']):
+    if admin and Admin.check_password(data['password'], admin['password']):
         return jsonify({'id' : admin.get_id(), 'email' : admin.get_email(), 'token' : generate_random_string(12)}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401

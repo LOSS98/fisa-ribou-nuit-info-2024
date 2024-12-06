@@ -31,11 +31,12 @@ class Admin(db.Model):
         self.password = generate_password_hash(password)
         db.session.commit()
 
-    def check_password(self, password):
+    @staticmethod
+    def check_password(passwordToTest, password):
         """
         Valide un mot de passe donné contre le hash stocké.
         """
-        return check_password_hash(self.password, password)
+        return check_password_hash(password, passwordToTest)
 
 
     @staticmethod
