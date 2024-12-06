@@ -24,7 +24,8 @@ app.config['SECRET_KEY'] = 'idfghjkagfuykagsf76GHKSGDFJ87vk'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///nuit_info.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+#cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 db.init_app(app)
