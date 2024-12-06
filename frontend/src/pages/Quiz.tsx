@@ -7,17 +7,18 @@ import {
     DialogTitle,
     DialogDescription,
     DialogFooter,
+    DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Trophy } from 'lucide-react';
+import { Trophy, X } from 'lucide-react';
 import {GameState, Question} from "@/lib/interfaces.ts";
 
 
 const POSSIBLE_ANSWERS = ["L'Humain", "L'Océan", "Les deux"] as const;
 
-const BurgerQuiz: React.FC = () => {
+const Quiz: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [gameState, setGameState] = useState<GameState>({
         currentQuestion: 0,
@@ -93,6 +94,10 @@ const BurgerQuiz: React.FC = () => {
         });
     };
 
+    const handleDialogClose = () => {
+        navigate('/');
+    }
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -110,11 +115,18 @@ const BurgerQuiz: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <Dialog open={showNameDialog} onOpenChange={setShowNameDialog} modal={false}>
-                <DialogContent>
+        <div className="flex-grow bg-gray-100 p-8">
+            <Dialog open={showNameDialog} onOpenChange={(open) => {
+                if (!open) handleDialogClose();
+            }}>
+                <DialogContent className="sm:max-w-[425px] [&>button]:hidden">
                     <DialogHeader>
-                        <DialogTitle>Welcome to Burger Quiz!</DialogTitle>
+                        <div className="flex justify-between items-center">
+                            <DialogTitle>Welcome to Burger Quiz!</DialogTitle>
+                            <DialogClose onClick={handleDialogClose} className="bg-white">
+                                <X className="h-4 w-4"/>
+                            </DialogClose>
+                        </div>
                         <DialogDescription>
                             Please enter your name to start the game.
                         </DialogDescription>
@@ -182,4 +194,4 @@ const BurgerQuiz: React.FC = () => {
     );
 };
 
-export default BurgerQuiz;
+export default Quiz;
