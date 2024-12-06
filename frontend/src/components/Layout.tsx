@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {AsciiLogo} from "@/components/AsciiLogo.tsx";
 
 
 const Navbar: React.FC = () => {
@@ -25,13 +24,15 @@ const Navbar: React.FC = () => {
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar />
+            <Navbar/>
+{/*
             <AsciiLogo/>
-            <main className="flex flex-grow">
-                {children}
-            </main>
-            <Footer />
-        </div>
+*/}
+            <main className="flex-grow">
+                    {children}
+                </main>
+                <Footer/>
+            </div>
     );
 };
 
@@ -41,7 +42,7 @@ const Footer: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex justify-between items-center">
                     <p className="text-sm text-gray-500">
-                        © {new Date().getFullYear()} Burger Quiz. All rights reserved.
+                        © {new Date().getFullYear()} FISA'Ribou. Au fil des bits, notre code transpire l'élite.
                     </p>
                     <div className="flex space-x-6">
                         <Link to="/about" className="text-gray-500 hover:text-gray-700">About</Link>

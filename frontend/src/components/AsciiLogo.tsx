@@ -58,7 +58,7 @@ const RandomAsciiLogo: React.FC = () => {
 
 export const AsciiLogo: React.FC = () => {
     return (
-        <div className="relative flex h-screen w-screen bg-white"> {/* Fond noir ajouté */}
+        <div className="relative flex h-screen w-screen bg-transparent"> {/* Fond noir ajouté */}
             {/* Intégrer le logo ASCII */}
             <RandomAsciiLogo />
         </div>
