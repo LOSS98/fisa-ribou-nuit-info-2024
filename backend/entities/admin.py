@@ -36,6 +36,8 @@ class Admin(db.Model):
         """
         Valide un mot de passe donné contre le hash stocké.
         """
+        #return check_password_hash(password, passwordToTest)
+
         return check_password_hash(password, passwordToTest)
 
 
