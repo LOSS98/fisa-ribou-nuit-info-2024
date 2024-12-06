@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
                         <Link to="/leaderboard" className=" px-3 py-4">Leaderboard</Link>
                     </div>
                     <div className="flex content-center justify-center">
-                        <Link to="/login" className="px-3 py-4">Login</Link>
+                        <Link to="/admin/login" className="px-3 py-4">Login</Link>
                     </div>
                 </div>
             </div>
