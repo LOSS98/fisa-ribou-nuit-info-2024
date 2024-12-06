@@ -24,7 +24,7 @@ const RandomAsciiLogo: React.FC = () => {
         <div
             ref={logoRef}
             onClick={handleClick} // Détecte le clic sur le logo
-            className="absolute text-white font-mono"
+            className="absolute text-gray-900 font-mono"
             style={{
                 top: position.top,
                 left: position.left,
@@ -58,7 +58,7 @@ const RandomAsciiLogo: React.FC = () => {
 
 export const AsciiLogo: React.FC = () => {
     return (
-        <div className="relative flex h-screen w-screen bg-black"> {/* Fond noir ajouté */}
+        <div className="relative flex h-screen w-screen bg-white"> {/* Fond noir ajouté */}
             {/* Intégrer le logo ASCII */}
             <RandomAsciiLogo />
         </div>

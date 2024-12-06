@@ -1,5 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {AsciiLogo} from "@/components/AsciiLogo.tsx";
 
 
 const Navbar: React.FC = () => {
@@ -25,6 +26,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
+            <AsciiLogo/>
             <main className="flex flex-grow">
                 {children}
             </main>
